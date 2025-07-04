@@ -1,20 +1,21 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class UsersTable1751663141903 implements MigrationInterface {
+export class BooksTable1751665048564 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(
-            `CREATE TABLE "users" (
+            `CREATE TABLE "books" (
                 "id" SERIAL PRIMARY KEY,
-                "username" VARCHAR(500) NOT NULL,
-                "password" TEXT NOT NULL
+                "title" VARCHAR(500) NOT NULL,
+                "author" VARCHAR(500) NOT NULL,
+                "isbn" VARCHAR(500) NOT NULL
             )`,
         )
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(
-            `DROP TABLE "users"`,
+            `DROP TABLE "books"`,
         )
     }
 

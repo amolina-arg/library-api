@@ -6,11 +6,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { ConfigService } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
+import { BooksModule } from './books/books.module';
+import { Book } from './books/entities/book.entity';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
+    BooksModule,
     LoggerModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -24,7 +27,7 @@ import { LoggerModule } from 'nestjs-pino';
         username: configService.get('POSTGRES_USER'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DATABASE'),
-        entities: [User],
+        entities: [User, Book],
         synchronize: configService.get('SYNCHRONIZE'),
       }),
       inject: [ConfigService],

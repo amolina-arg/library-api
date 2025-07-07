@@ -5,11 +5,13 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { ConfigService } from '@nestjs/config';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
+    LoggerModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
     }),

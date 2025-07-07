@@ -5,7 +5,7 @@ export class IssuedBooksTable1751665282323 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(
             `CREATE TABLE "issued_books" (
-                "id" uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+                "id" uuid DEFAULT gen_random_uuid() PRIMARY KEY NOT NULL,
                 "book_id" uuid NOT NULL,
                 "user_id" uuid NOT NULL
             )`,

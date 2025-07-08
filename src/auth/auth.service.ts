@@ -24,7 +24,7 @@ export class AuthService {
 		};
 	}
 
-	async userLogged(user: UserDto): Promise<UserDto> {
+	userLogged(user: UserDto): UserDto {
 		return { ...user };
 	}
 }

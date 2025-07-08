@@ -23,7 +23,6 @@ export class BooksController {
 
 	@Get()
 	findAll() {
-		console.log('findAll');
 		return this.booksService.findAll();
 	}
 

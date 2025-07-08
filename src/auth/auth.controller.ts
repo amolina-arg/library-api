@@ -26,7 +26,7 @@ export class AuthController {
 
 	@UseGuards(AuthGuard)
 	@Get('user-logged')
-	async userLogged(@Request() { user }: { user: UserDto }) {
+	userLogged(@Request() { user }: { user: UserDto }) {
 		return this.authService.userLogged(user);
 	}
 }

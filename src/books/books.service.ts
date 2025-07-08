@@ -7,29 +7,29 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class BooksService {
-  constructor(
-    @InjectRepository(Book)
-    private booksRepository: Repository<Book>,
-  ) {}
+	constructor(
+		@InjectRepository(Book)
+		private readonly booksRepository: Repository<Book>,
+	) {}
 
-  create(createBookDto: CreateBookDto) {
-    const book = this.booksRepository.create(createBookDto);
-    return this.booksRepository.save(book);
-  }
+	create(createBookDto: CreateBookDto) {
+		const book = this.booksRepository.create(createBookDto);
+		return this.booksRepository.save(book);
+	}
 
-  findAll() {
-    return this.booksRepository.find();
-  }
+	findAll() {
+		return this.booksRepository.find();
+	}
 
-  findOne(id: string) {
-    return this.booksRepository.findOneBy({ id });
-  }
+	findOne(id: string) {
+		return this.booksRepository.findOneBy({ id });
+	}
 
-  update(id: string, updateBookDto: UpdateBookDto) {
-    return this.booksRepository.update(id, updateBookDto);
-  }
+	update(id: string, updateBookDto: UpdateBookDto) {
+		return this.booksRepository.update(id, updateBookDto);
+	}
 
-  remove(id: string) {
-    return this.booksRepository.delete(id);
-  }
+	remove(id: string) {
+		return this.booksRepository.delete(id);
+	}
 }

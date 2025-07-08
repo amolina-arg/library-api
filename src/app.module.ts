@@ -10,30 +10,30 @@ import { BooksModule } from './books/books.module';
 import { Book } from './books/entities/book.entity';
 
 @Module({
-  imports: [
-    AuthModule,
-    UsersModule,
-    BooksModule,
-    LoggerModule.forRoot(),
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('POSTGRES_HOST'),
-        port: configService.get('POSTGRES_PORT'),
-        username: configService.get('POSTGRES_USER'),
-        password: configService.get('POSTGRES_PASSWORD'),
-        database: configService.get('POSTGRES_DATABASE'),
-        entities: [User, Book],
-        synchronize: configService.get('SYNCHRONIZE'),
-      }),
-      inject: [ConfigService],
-    }),
-  ],
-  controllers: [],
-  providers: [],
+	imports: [
+		AuthModule,
+		UsersModule,
+		BooksModule,
+		LoggerModule.forRoot(),
+		ConfigModule.forRoot({
+			isGlobal: true,
+		}),
+		TypeOrmModule.forRootAsync({
+			imports: [ConfigModule],
+			useFactory: (configService: ConfigService) => ({
+				type: 'postgres',
+				host: configService.get('POSTGRES_HOST'),
+				port: configService.get('POSTGRES_PORT'),
+				username: configService.get('POSTGRES_USER'),
+				password: configService.get('POSTGRES_PASSWORD'),
+				database: configService.get('POSTGRES_DATABASE'),
+				entities: [User, Book],
+				synchronize: configService.get('SYNCHRONIZE'),
+			}),
+			inject: [ConfigService],
+		}),
+	],
+	controllers: [],
+	providers: [],
 })
-export class AppModule { }
+export class AppModule {}

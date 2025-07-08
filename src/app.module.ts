@@ -8,13 +8,28 @@ import { ConfigService } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
 import { BooksModule } from './books/books.module';
 import { Book } from './books/entities/book.entity';
+import { IssuedBooksModule } from './issued-books/issued-books.module';
+import { IssuedBook } from './issued-books/entities/issued-book.entity';
 
 @Module({
 	imports: [
 		AuthModule,
 		UsersModule,
 		BooksModule,
-		LoggerModule.forRoot(),
+		LoggerModule.forRoot({
+			pinoHttp: {
+				transport:
+					process.env.NODE_ENV === 'production'
+						? undefined
+						: {
+								target: 'pino-pretty',
+								options: {
+									messageKey: 'message',
+								},
+							},
+				messageKey: 'message',
+			},
+		}),
 		ConfigModule.forRoot({
 			isGlobal: true,
 		}),
@@ -27,11 +42,12 @@ import { Book } from './books/entities/book.entity';
 				username: configService.get('POSTGRES_USER'),
 				password: configService.get('POSTGRES_PASSWORD'),
 				database: configService.get('POSTGRES_DATABASE'),
-				entities: [User, Book],
+				entities: [User, Book, IssuedBook],
 				synchronize: configService.get('SYNCHRONIZE'),
 			}),
 			inject: [ConfigService],
 		}),
+		IssuedBooksModule,
 	],
 	controllers: [],
 	providers: [],

@@ -1,11 +1,5 @@
-import { Book } from 'src/books/entities/book.entity';
-import {
-	Entity,
-	Column,
-	PrimaryGeneratedColumn,
-	ManyToMany,
-	JoinTable,
-} from 'typeorm';
+import { IssuedBook } from 'src/issued-books/entities/issued-book.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity({ name: 'users' })
 export class User {
@@ -18,11 +12,6 @@ export class User {
 	@Column('text')
 	password: string;
 
-	@ManyToMany(() => Book)
-	@JoinTable({
-		name: 'issued_books',
-		joinColumn: { name: 'user_id', referencedColumnName: 'id' },
-		inverseJoinColumn: { name: 'book_id', referencedColumnName: 'id' },
-	})
-	books: Book[];
+	@OneToMany(() => IssuedBook, issuedBook => issuedBook.user)
+	issuedBooks: IssuedBook[];
 }

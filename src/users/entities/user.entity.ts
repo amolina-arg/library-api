@@ -1,4 +1,4 @@
-import { IssuedBook } from 'src/issued-books/entities/issued-book.entity';
+import { IssuedBook } from '../../issued-books/entities/issued-book.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity({ name: 'users' })

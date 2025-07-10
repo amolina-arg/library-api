@@ -1,5 +1,8 @@
 import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
+import { User } from '../users/entities/user.entity';
+import { Book } from '../books/entities/book.entity';
+import { IssuedBook } from '../issued-books/entities/issued-book.entity';
 
 dotenv.config();
 
@@ -16,5 +19,5 @@ export default new DataSource({
 	migrationsTableName: 'migrations',
 	migrationsRun: true,
 	logging: true,
-	entities: ['src/**/*.entity.ts'],
+	entities: [User, Book, IssuedBook],
 });

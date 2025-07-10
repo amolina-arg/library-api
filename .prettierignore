@@ -55,6 +55,3 @@ Thumbs.db
 # Database files
 *.db
 *.sqlite
-
-# Migration files (they have formato específico)
-src/db/migrations/ 

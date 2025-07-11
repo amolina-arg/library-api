@@ -1,16 +1,22 @@
 import {
 	BadRequestException,
 	Injectable,
+	InternalServerErrorException,
+	Logger,
 	NotFoundException,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { IssuedBook, IssuedBookState } from './entities/issued-book.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateIssuedBookDto } from './dto/create-issued-book.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class IssuedBooksService {
+	private readonly logger = new Logger(IssuedBooksService.name);
+
 	constructor(
+		private readonly configService: ConfigService,
 		@InjectRepository(IssuedBook)
 		private readonly issuedBooksRepository: Repository<IssuedBook>,
 	) {}
@@ -26,7 +32,16 @@ export class IssuedBooksService {
 
 		const now = new Date();
 
-		const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
+		const daysToReturnBook = this.configService.get<number>(
+			'DAYS_TO_RETURN_BOOK',
+		);
+
+		if (!daysToReturnBook) {
+			this.logger.error('Days to return book not defined');
+			throw new InternalServerErrorException('Days to return book not defined');
+		}
+
+		const sevenDaysInMs = daysToReturnBook * 24 * 60 * 60 * 1000;
 
 		if (!issuedBook) {
 			throw new NotFoundException('Borrow not found');

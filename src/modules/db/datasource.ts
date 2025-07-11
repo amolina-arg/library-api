@@ -15,7 +15,7 @@ export default new DataSource({
 	password: process.env.POSTGRES_PASSWORD,
 	database: process.env.POSTGRES_DATABASE,
 	synchronize: false,
-	migrations: ['src/db/migrations/*.ts'],
+	migrations: ['src/modules/db/migrations/*.ts'],
 	migrationsTableName: 'migrations',
 	migrationsRun: true,
 	logging: true,

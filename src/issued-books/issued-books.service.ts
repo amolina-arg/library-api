@@ -47,7 +47,7 @@ export class IssuedBooksService {
 
 		issuedBook.returnedAt = new Date();
 
-		return this.issuedBooksRepository.save(issuedBook);
+		return this.issuedBooksRepository.update(id, issuedBook);
 	}
 
 	async create(createIssuedBookDto: CreateIssuedBookDto) {

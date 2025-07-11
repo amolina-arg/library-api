@@ -14,9 +14,12 @@ import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { AuthGuard } from '../../guards/auth.guard';
+import { Roles } from 'src/decorators/roles.decorator';
+import { Role } from 'src/enums/role.enum';
+import { RolesGuard } from 'src/guards/role.guard';
 
 @Controller('books')
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard, RolesGuard)
 export class BooksController {
 	constructor(private readonly booksService: BooksService) {}
 
@@ -35,6 +38,7 @@ export class BooksController {
 		return this.booksService.findAvailable();
 	}
 
+	@Roles(Role.Admin)
 	@Get(':id')
 	findOne(@Param('id', ParseUUIDPipe) id: string) {
 		return this.booksService.findOne(id);

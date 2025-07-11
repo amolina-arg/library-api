@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/entities/user.entity';
+import { User } from './modules/users/entities/user.entity';
 import { ConfigService } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
-import { BooksModule } from './books/books.module';
-import { Book } from './books/entities/book.entity';
-import { IssuedBooksModule } from './issued-books/issued-books.module';
-import { IssuedBook } from './issued-books/entities/issued-book.entity';
+import { BooksModule } from './modules/books/books.module';
+import { Book } from './modules/books/entities/book.entity';
+import { IssuedBooksModule } from './modules/issued-books/issued-books.module';
+import { IssuedBook } from './modules/issued-books/entities/issued-book.entity';
 
 @Module({
 	imports: [

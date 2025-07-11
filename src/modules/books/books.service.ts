@@ -4,7 +4,7 @@ import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
-import { IssuedBookState } from 'src/issued-books/entities/issued-book.entity';
+import { IssuedBookState } from 'src/modules/issued-books/entities/issued-book.entity';
 
 @Injectable()
 export class BooksService {

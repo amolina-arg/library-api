@@ -13,7 +13,7 @@ import {
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('books')
 @UseGuards(AuthGuard)
@@ -28,6 +28,11 @@ export class BooksController {
 	@Get()
 	findAll() {
 		return this.booksService.findAll();
+	}
+
+	@Get('available')
+	findAvailable() {
+		return this.booksService.findAvailable();
 	}
 
 	@Get(':id')

@@ -4,6 +4,7 @@ import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
+import { IssuedBookState } from 'src/issued-books/entities/issued-book.entity';
 
 @Injectable()
 export class BooksService {
@@ -31,5 +32,17 @@ export class BooksService {
 
 	remove(id: string) {
 		return this.booksRepository.delete(id);
+	}
+
+	findAvailable() {
+		const books = this.booksRepository
+			.createQueryBuilder('book')
+			.leftJoinAndSelect('book.issuedBooks', 'issuedBook')
+			.where('issuedBook.state IS NULL OR issuedBook.state != :issued', {
+				issued: IssuedBookState.ISSUED,
+			})
+			.getMany();
+
+		return books;
 	}
 }

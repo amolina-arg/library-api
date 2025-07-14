@@ -83,4 +83,34 @@ export class IssuedBooksService {
 		issuedBook.userId = createIssuedBookDto.userId;
 		return this.issuedBooksRepository.save(issuedBook);
 	}
+
+	findMyIssuedBooks(userId: string) {
+		return this.issuedBooksRepository.find({
+			where: {
+				userId,
+			},
+		});
+	}
+
+	findByUserId(userId: string) {
+		return this.issuedBooksRepository.find({
+			where: {
+				userId,
+			},
+		});
+	}
+
+	findByBookId(bookId: string) {
+		return this.issuedBooksRepository.find({
+			where: {
+				bookId,
+			},
+		});
+	}
+
+	findOne(id: string) {
+		return this.issuedBooksRepository.findOne({
+			where: { id },
+		});
+	}
 }

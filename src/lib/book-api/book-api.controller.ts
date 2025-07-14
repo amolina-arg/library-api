@@ -12,10 +12,10 @@ import {
 } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
-import { AuthGuard } from '../../guards/auth.guard';
-import { Roles } from 'src/decorators/roles.decorator';
-import { Role } from 'src/enums/role.enum';
-import { RolesGuard } from 'src/guards/role.guard';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { Roles } from 'src/lib/auth/decorators/roles.decorator';
+import { Role } from 'src/lib/auth/enums/role.enum';
+import { RolesGuard } from 'src/lib/auth/guards/role.guard';
 import { BooksService } from '../book/books.service';
 
 @Controller('books')

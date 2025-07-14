@@ -10,7 +10,7 @@ import {
 	ValidationPipe,
 } from '@nestjs/common';
 import { IssuedBooksService } from '../issued-book/issued-book.service';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { AuthGuard } from 'src/lib/auth/guards/auth.guard';
 import { CreateIssuedBookDto } from './dto/create-issued-book.dto';
 
 @Controller('issued-books')

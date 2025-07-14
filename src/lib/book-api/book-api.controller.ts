@@ -20,9 +20,11 @@ import { BooksService } from '../book/books.service';
 
 @Controller('books')
 @UseGuards(AuthGuard, RolesGuard)
+@Roles(Role.Client)
 export class BooksApiController {
 	constructor(private readonly booksService: BooksService) {}
 
+	@Roles(Role.Admin)
 	@Post()
 	create(@Body(new ValidationPipe()) createBookDto: CreateBookDto) {
 		return this.booksService.create(createBookDto);
@@ -38,12 +40,12 @@ export class BooksApiController {
 		return this.booksService.findAvailable();
 	}
 
-	@Roles(Role.Admin)
 	@Get(':id')
 	findOne(@Param('id', ParseUUIDPipe) id: string) {
 		return this.booksService.findOne(id);
 	}
 
+	@Roles(Role.Admin)
 	@Patch(':id')
 	update(
 		@Param('id', ParseUUIDPipe) id: string,
@@ -52,6 +54,7 @@ export class BooksApiController {
 		return this.booksService.update(id, updateBookDto);
 	}
 
+	@Roles(Role.Admin)
 	@Delete(':id')
 	remove(@Param('id', ParseUUIDPipe) id: string) {
 		return this.booksService.remove(id);

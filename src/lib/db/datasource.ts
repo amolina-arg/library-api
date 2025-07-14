@@ -1,8 +1,8 @@
 import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
-import { User } from '../users/entities/user.entity';
-import { Book } from '../books/entities/book.entity';
-import { IssuedBook } from '../issued-books/entities/issued-book.entity';
+import { User } from './entities/user.entity';
+import { Book } from './entities/book.entity';
+import { IssuedBook } from './entities/issued-book.entity';
 
 dotenv.config();
 

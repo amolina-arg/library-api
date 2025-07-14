@@ -1,21 +1,20 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './modules/auth/auth.module';
-import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './lib/auth/auth.module';
+import { UsersModule } from './lib/users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './modules/users/entities/user.entity';
+import { User } from './lib/db/entities/user.entity';
 import { ConfigService } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
-import { BooksModule } from './modules/books/books.module';
-import { Book } from './modules/books/entities/book.entity';
-import { IssuedBooksModule } from './modules/issued-books/issued-books.module';
-import { IssuedBook } from './modules/issued-books/entities/issued-book.entity';
+import { Book } from './lib/db/entities/book.entity';
+import { IssuedBook } from './lib/db/entities/issued-book.entity';
+import { BookApiModule } from './lib/book-api/book-api.module';
+import { IssuedBookApiModule } from './lib/issued-book-api/issued-book-api.module';
 
 @Module({
 	imports: [
 		AuthModule,
 		UsersModule,
-		BooksModule,
 		LoggerModule.forRoot({
 			pinoHttp: {
 				transport:
@@ -47,7 +46,8 @@ import { IssuedBook } from './modules/issued-books/entities/issued-book.entity';
 			}),
 			inject: [ConfigService],
 		}),
-		IssuedBooksModule,
+		IssuedBookApiModule,
+		BookApiModule,
 	],
 	controllers: [],
 	providers: [],

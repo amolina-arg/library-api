@@ -10,17 +10,17 @@ import {
 	UseGuards,
 	ValidationPipe,
 } from '@nestjs/common';
-import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { AuthGuard } from '../../guards/auth.guard';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/role.enum';
 import { RolesGuard } from 'src/guards/role.guard';
+import { BooksService } from '../book/books.service';
 
 @Controller('books')
 @UseGuards(AuthGuard, RolesGuard)
-export class BooksController {
+export class BooksApiController {
 	constructor(private readonly booksService: BooksService) {}
 
 	@Post()

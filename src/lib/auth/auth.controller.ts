@@ -8,8 +8,8 @@ import {
 	ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UserDto } from 'src/modules/users/dto/user-query.dto';
-import { UserCreateDto } from 'src/modules/users/dto/user-create.dto';
+import { UserDto } from 'src/lib/users/dto/user-query.dto';
+import { UserCreateDto } from 'src/lib/users/dto/user-create.dto';
 import { AuthGuard } from '../../guards/auth.guard';
 
 @Controller('auth')

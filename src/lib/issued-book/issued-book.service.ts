@@ -6,9 +6,9 @@ import {
 	NotFoundException,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { IssuedBook, IssuedBookState } from './entities/issued-book.entity';
+import { IssuedBook, IssuedBookState } from '../db/entities/issued-book.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateIssuedBookDto } from './dto/create-issued-book.dto';
+import { CreateIssuedBookDto } from '../issued-book-api/dto/create-issued-book.dto';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()

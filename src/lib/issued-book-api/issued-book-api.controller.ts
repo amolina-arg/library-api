@@ -9,13 +9,13 @@ import {
 	UseGuards,
 	ValidationPipe,
 } from '@nestjs/common';
-import { IssuedBooksService } from './issued-books.service';
+import { IssuedBooksService } from '../issued-book/issued-book.service';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { CreateIssuedBookDto } from './dto/create-issued-book.dto';
 
 @Controller('issued-books')
 @UseGuards(AuthGuard)
-export class IssuedBooksController {
+export class IssuedBookApiController {
 	constructor(private readonly issuedBooksService: IssuedBooksService) {}
 
 	@Get()

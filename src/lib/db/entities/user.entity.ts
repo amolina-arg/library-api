@@ -1,5 +1,5 @@
 import { Role } from 'src/enums/role.enum';
-import { IssuedBook } from '../../issued-books/entities/issued-book.entity';
+import { IssuedBook } from './issued-book.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity({ name: 'users' })

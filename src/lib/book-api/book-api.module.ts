@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { BooksApiController } from './book-api.controller';
+import { BooksApiController } from './rest/book-api.controller';
 import { BooksModule } from '../book/books.module';
 import { AuthModule } from 'src/lib/auth/auth.module';
 

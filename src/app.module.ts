@@ -10,11 +10,15 @@ import { Book } from './lib/db/entities/book.entity';
 import { IssuedBook } from './lib/db/entities/issued-book.entity';
 import { BookApiModule } from './lib/book-api/book-api.module';
 import { IssuedBookApiModule } from './lib/issued-book-api/issued-book-api.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
 	imports: [
 		AuthModule,
 		UsersModule,
+		IssuedBookApiModule,
+		BookApiModule,
 		LoggerModule.forRoot({
 			pinoHttp: {
 				transport:
@@ -46,8 +50,11 @@ import { IssuedBookApiModule } from './lib/issued-book-api/issued-book-api.modul
 			}),
 			inject: [ConfigService],
 		}),
-		IssuedBookApiModule,
-		BookApiModule,
+		GraphQLModule.forRoot<ApolloDriverConfig>({
+			driver: ApolloDriver,
+			autoSchemaFile: true,
+			playground: true,
+		}),
 	],
 	controllers: [],
 	providers: [],

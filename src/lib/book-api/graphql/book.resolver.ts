@@ -5,9 +5,12 @@ import { GraphqlRolesGuard } from 'src/lib/auth/guards/graphql-role.guard';
 import { BooksService } from 'src/lib/book/books.service';
 import { Book } from './dto/book.type';
 import { CreateBookInput } from './dto/create-book.input';
+import { Roles } from 'src/lib/auth/decorators/roles.decorator';
+import { Role } from 'src/lib/auth/enums/role.enum';
 
 @UseGuards(GraphqlAuthGuard, GraphqlRolesGuard)
 @Resolver(() => Book)
+@Roles(Role.Client)
 export class BookResolver {
 	constructor(private readonly bookService: BooksService) {}
 
@@ -16,7 +19,13 @@ export class BookResolver {
 		return this.bookService.findOne(id);
 	}
 
-	@Mutation(returns => Book, { name: 'createBook' })
+	@Query(() => [Book], { name: 'books' })
+	async books() {
+		return this.bookService.findAll();
+	}
+
+	@Roles(Role.Admin)
+	@Mutation(() => Book, { name: 'createBook' })
 	async createBook(@Args('createBookInput') createBookInput: CreateBookInput) {
 		return this.bookService.create(createBookInput);
 	}

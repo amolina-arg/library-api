@@ -2,18 +2,18 @@ import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class IssuedBook {
-	@Field()
+	@Field({ nullable: false })
 	id: string;
 
-	@Field()
-	bookId: string;
-
-	@Field()
+	@Field({ nullable: false })
 	userId: string;
 
-	@Field()
+	@Field({ nullable: false })
+	bookId: string;
+
+	@Field({ nullable: false })
 	issuedAt: Date;
 
-	@Field()
+	@Field({ nullable: true })
 	returnedAt: Date;
 }

@@ -18,6 +18,14 @@ export class UsersService {
 		return this.userRepository.save(user);
 	}
 
+	async findOneById(id: string): Promise<User | undefined> {
+		const user = await this.userRepository.findOne({ where: { id } });
+		if (!user) {
+			throw new NotFoundException('User not found');
+		}
+		return user;
+	}
+
 	async findOne(username: string): Promise<User | undefined> {
 		const user = await this.userRepository.findOne({ where: { username } });
 		if (!user) {

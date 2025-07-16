@@ -8,7 +8,7 @@ import {
 import { Repository } from 'typeorm';
 import { IssuedBook, IssuedBookState } from '../db/entities/issued-book.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateIssuedBookDto } from '../issued-book-api/dto/create-issued-book.dto';
+import { CreateIssuedBookDto } from '../issued-book-api/rest/dto/create-issued-book.dto';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()

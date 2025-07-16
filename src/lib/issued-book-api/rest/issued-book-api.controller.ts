@@ -10,13 +10,13 @@ import {
 	UseGuards,
 	ValidationPipe,
 } from '@nestjs/common';
-import { IssuedBooksService } from '../issued-book/issued-book.service';
+import { IssuedBooksService } from '../../issued-book/issued-book.service';
 import { AuthGuard } from 'src/lib/auth/guards/auth.guard';
 import { CreateIssuedBookDto } from './dto/create-issued-book.dto';
-import { Role } from '../auth/enums/role.enum';
-import { Roles } from '../auth/decorators/roles.decorator';
-import { RolesGuard } from '../auth/guards/role.guard';
-import { UserToken } from '../auth/models/UserToken.model';
+import { Role } from '../../auth/enums/role.enum';
+import { Roles } from '../../auth/decorators/roles.decorator';
+import { RolesGuard } from '../../auth/guards/role.guard';
+import { UserToken } from '../../auth/models/UserToken.model';
 
 @Controller('issued-books')
 @UseGuards(AuthGuard, RolesGuard)

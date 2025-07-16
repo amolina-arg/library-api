@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserDto } from 'src/lib/users/dto/user-query.dto';
-import { UsersService } from 'src/lib/users/users.service';
+import { UserDto } from 'src/lib/user-api/rest/dto/user-query.dto';
+import { UsersService } from 'src/lib/user/users.service';
 import { UserToken } from './models/UserToken.model';
 
 @Injectable()

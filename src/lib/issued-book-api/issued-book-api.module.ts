@@ -5,10 +5,11 @@ import { AuthModule } from '../auth/auth.module';
 import { IssuedBookResolver } from './graphql/issued-book.resolver';
 import { UsersModule } from '../user/users.module';
 import { BooksModule } from '../book/books.module';
+import { BookDataLoader } from './book.dataloader';
 
 @Module({
 	imports: [IssuedBookModule, UsersModule, BooksModule, AuthModule],
 	controllers: [IssuedBookApiController],
-	providers: [IssuedBookResolver],
+	providers: [IssuedBookResolver, BookDataLoader],
 })
 export class IssuedBookApiModule {}

@@ -12,6 +12,10 @@ import { BookApiModule } from './lib/book-api/book-api.module';
 import { IssuedBookApiModule } from './lib/issued-book-api/issued-book-api.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { BookDataLoader } from './lib/issued-book-api/book.dataloader';
+import { BooksService } from './lib/book/books.service';
+import { BooksModule } from './lib/book/books.module';
 
 @Module({
 	imports: [
@@ -50,10 +54,19 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 			}),
 			inject: [ConfigService],
 		}),
-		GraphQLModule.forRoot<ApolloDriverConfig>({
+		GraphQLModule.forRootAsync<ApolloDriverConfig>({
 			driver: ApolloDriver,
-			autoSchemaFile: true,
-			playground: true,
+			imports: [BooksModule],
+			inject: [BooksService],
+			useFactory: (bookService: BooksService) => ({
+				autoSchemaFile: true,
+				playground: false,
+				plugins: [ApolloServerPluginLandingPageLocalDefault()],
+				context: ({ req }: { req: Request }) => ({
+					req,
+					bookDataLoader: new BookDataLoader(bookService).createLoader(),
+				}),
+			}),
 		}),
 	],
 	controllers: [],

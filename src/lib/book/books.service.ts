@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from '../db/entities/book.entity';
-import { Repository } from 'typeorm';
-import { IssuedBookState } from 'src/lib/db/entities/issued-book.entity';
+import { In, Repository } from 'typeorm';
 import { CreateBookDto } from '../book-api/rest/dto/create-book.dto';
 import { UpdateBookDto } from '../book-api/rest/dto/update-book.dto';
+import { IssuedBookState } from '../enums/IssuedBookState.enum';
 
 @Injectable()
 export class BooksService {
@@ -32,6 +32,10 @@ export class BooksService {
 
 	remove(id: string) {
 		return this.booksRepository.delete(id);
+	}
+
+	findByIds(ids: string[]) {
+		return this.booksRepository.findBy({ id: In(ids) });
 	}
 
 	findAvailable() {

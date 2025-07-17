@@ -4,14 +4,22 @@ import {
 	InternalServerErrorException,
 	Logger,
 	NotFoundException,
+	UseGuards,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { IssuedBook, IssuedBookState } from '../db/entities/issued-book.entity';
+import { IssuedBook } from '../db/entities/issued-book.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateIssuedBookDto } from '../issued-book-api/rest/dto/create-issued-book.dto';
 import { ConfigService } from '@nestjs/config';
+import { GraphqlAuthGuard } from '../auth/guards/graphql-auth.guard';
+import { GraphqlRolesGuard } from '../auth/guards/graphql-role.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../enums/role.enum';
+import { IssuedBookState } from '../enums/IssuedBookState.enum';
 
 @Injectable()
+@UseGuards(GraphqlAuthGuard, GraphqlRolesGuard)
+@Roles(Role.Client)
 export class IssuedBooksService {
 	private readonly logger = new Logger(IssuedBooksService.name);
 
@@ -22,7 +30,9 @@ export class IssuedBooksService {
 	) {}
 
 	findAll() {
-		return this.issuedBooksRepository.find();
+		return this.issuedBooksRepository.find({
+			relations: ['user'],
+		});
 	}
 
 	async returnBook(id: string) {
@@ -105,12 +115,20 @@ export class IssuedBooksService {
 			where: {
 				bookId,
 			},
+			relations: ['user', 'book'],
 		});
 	}
 
 	findOne(id: string) {
+		console.log(
+			this.issuedBooksRepository.findOne({
+				where: { id },
+				relations: ['user', 'book'],
+			}),
+		);
 		return this.issuedBooksRepository.findOne({
 			where: { id },
+			relations: ['user', 'book'],
 		});
 	}
 }

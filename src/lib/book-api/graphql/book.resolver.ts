@@ -6,7 +6,7 @@ import { BooksService } from 'src/lib/book/books.service';
 import { Book } from './dto/book.type';
 import { CreateBookInput } from './dto/create-book.input';
 import { Roles } from 'src/lib/auth/decorators/roles.decorator';
-import { Role } from 'src/lib/auth/enums/role.enum';
+import { Role } from 'src/lib/enums/role.enum';
 
 @UseGuards(GraphqlAuthGuard, GraphqlRolesGuard)
 @Resolver(() => Book)

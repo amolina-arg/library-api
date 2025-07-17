@@ -2,7 +2,7 @@ import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { ROLES_KEY } from 'src/lib/auth/decorators/roles.decorator';
-import { Role } from 'src/lib/auth/enums/role.enum';
+import { Role } from 'src/lib/enums/role.enum';
 import { UserToken } from 'src/lib/auth/models/UserToken.model';
 
 @Injectable()

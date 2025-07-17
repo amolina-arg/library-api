@@ -1,3 +1,4 @@
+import { IssuedBookState } from 'src/lib/enums/IssuedBookState.enum';
 import { Book } from './book.entity';
 import { User } from './user.entity';
 import {
@@ -7,12 +8,6 @@ import {
 	PrimaryGeneratedColumn,
 	JoinColumn,
 } from 'typeorm';
-
-export enum IssuedBookState {
-	ISSUED = 'issued',
-	RETURNED = 'returned',
-	OVERDUE = 'overdue',
-}
 
 @Entity({ name: 'issued_books' })
 export class IssuedBook {

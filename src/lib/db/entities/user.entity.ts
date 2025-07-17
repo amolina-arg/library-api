@@ -1,4 +1,4 @@
-import { Role } from 'src/lib/auth/enums/role.enum';
+import { Role } from 'src/lib/enums/role.enum';
 import { IssuedBook } from './issued-book.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 

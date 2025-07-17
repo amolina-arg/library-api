@@ -1,4 +1,4 @@
-import type { Role } from 'src/lib/auth/enums/role.enum';
+import type { Role } from 'src/lib/enums/role.enum';
 
 export class UserToken {
 	sub: string;

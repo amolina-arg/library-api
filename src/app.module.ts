@@ -13,7 +13,7 @@ import { IssuedBookApiModule } from './lib/issued-book-api/issued-book-api.modul
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { BookDataLoader } from './lib/issued-book-api/book.dataloader';
+import { BookDataLoader } from './lib/book-api/graphql/book.dataloader';
 import { BooksService } from './lib/book/books.service';
 import { BooksModule } from './lib/book/books.module';
 

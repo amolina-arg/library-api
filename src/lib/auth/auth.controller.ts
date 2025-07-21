@@ -8,8 +8,8 @@ import {
 	ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UserDto } from 'src/lib/user-api/rest/dto/user-query.dto';
-import { UserCreateDto } from 'src/lib/user-api/rest/dto/user-create.dto';
+import { UserDto } from 'src/lib/user-api/rest/dto/query-user.dto';
+import { UserCreateDto } from 'src/lib/user-api/rest/dto/create-user.dto';
 import { AuthGuard } from './guards/auth.guard';
 
 @Controller('auth')
@@ -26,7 +26,7 @@ export class AuthController {
 
 	@UseGuards(AuthGuard)
 	@Get('user-logged')
-	userLogged(@Request() { user }: { user: UserDto }) {
+	userLogged(@Request() { user }: { user: UserDto }): UserDto {
 		return this.authService.userLogged(user);
 	}
 }

@@ -1,7 +1,7 @@
 import * as DataLoader from 'dataloader';
 import { Injectable, Scope } from '@nestjs/common';
-import { BooksService } from '../book/books.service';
-import { Book } from '../db/entities/book.entity';
+import { BooksService } from '../../book/books.service';
+import { Book } from '../../db/entities/book.entity';
 
 @Injectable({ scope: Scope.REQUEST })
 export class BookDataLoader {

@@ -25,5 +25,5 @@ export class IssuedBook {
 	issuedAt: Date;
 
 	@Field({ nullable: true })
-	returnedAt: Date;
+	returnedAt?: Date;
 }

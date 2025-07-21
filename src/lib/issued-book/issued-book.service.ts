@@ -16,6 +16,8 @@ import { GraphqlRolesGuard } from '../auth/guards/graphql-role.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../enums/role.enum';
 import { IssuedBookState } from '../enums/IssuedBookState.enum';
+import { IssuedBookDto } from '../issued-book-api/rest/dto/query-issued-book.dto';
+import { IssuedBookMapper } from '../issued-book-api/mapper/issued-book.mapper';
 
 @Injectable()
 @UseGuards(GraphqlAuthGuard, GraphqlRolesGuard)
@@ -29,13 +31,18 @@ export class IssuedBooksService {
 		private readonly issuedBooksRepository: Repository<IssuedBook>,
 	) {}
 
-	findAll() {
-		return this.issuedBooksRepository.find({
-			relations: ['user'],
-		});
+	async findAll(status?: IssuedBookState): Promise<IssuedBookDto[]> {
+		return (
+			await this.issuedBooksRepository.find({
+				relations: ['user', 'book'],
+				where: {
+					state: status,
+				},
+			})
+		).map(issuedBookEntity => IssuedBookMapper.EntityToDto(issuedBookEntity));
 	}
 
-	async returnBook(id: string) {
+	async returnBook(id: string): Promise<IssuedBookDto> {
 		const issuedBook = await this.issuedBooksRepository.findOne({
 			where: { id },
 		});
@@ -72,10 +79,20 @@ export class IssuedBooksService {
 
 		issuedBook.returnedAt = new Date();
 
-		return this.issuedBooksRepository.update(id, issuedBook);
+		await this.issuedBooksRepository.update(id, issuedBook);
+
+		const updatedIssuedBook = await this.findOne(id);
+
+		if (!updatedIssuedBook) {
+			throw new NotFoundException('Borrow not found');
+		}
+
+		return updatedIssuedBook;
 	}
 
-	async create(createIssuedBookDto: CreateIssuedBookDto) {
+	async create(
+		createIssuedBookDto: CreateIssuedBookDto,
+	): Promise<IssuedBookDto> {
 		const existingIssuedBook = await this.issuedBooksRepository.findOne({
 			where: {
 				bookId: createIssuedBookDto.bookId,
@@ -91,7 +108,9 @@ export class IssuedBooksService {
 
 		issuedBook.bookId = createIssuedBookDto.bookId;
 		issuedBook.userId = createIssuedBookDto.userId;
-		return this.issuedBooksRepository.save(issuedBook);
+		return IssuedBookMapper.EntityToDto(
+			await this.issuedBooksRepository.save(issuedBook),
+		);
 	}
 
 	findMyIssuedBooks(userId: string) {
@@ -102,33 +121,32 @@ export class IssuedBooksService {
 		});
 	}
 
-	findByUserId(userId: string) {
+	findByUserId(userId: string): Promise<IssuedBookDto[]> {
 		return this.issuedBooksRepository.find({
 			where: {
 				userId,
 			},
-		});
-	}
-
-	findByBookId(bookId: string) {
-		return this.issuedBooksRepository.find({
-			where: {
-				bookId,
-			},
 			relations: ['user', 'book'],
 		});
 	}
 
-	findOne(id: string) {
-		console.log(
-			this.issuedBooksRepository.findOne({
-				where: { id },
+	async findByBookId(bookId: string): Promise<IssuedBookDto[]> {
+		return IssuedBookMapper.EntityToDtoList(
+			await this.issuedBooksRepository.find({
+				where: {
+					bookId,
+				},
 				relations: ['user', 'book'],
 			}),
 		);
-		return this.issuedBooksRepository.findOne({
+	}
+
+	async findOne(id: string): Promise<IssuedBookDto | null> {
+		const issuedBook = await this.issuedBooksRepository.findOne({
 			where: { id },
 			relations: ['user', 'book'],
 		});
+
+		return issuedBook ? IssuedBookMapper.EntityToDto(issuedBook) : null;
 	}
 }

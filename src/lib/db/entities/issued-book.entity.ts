@@ -24,7 +24,7 @@ export class IssuedBook {
 	issuedAt: Date;
 
 	@Column({ name: 'returned_at', type: 'timestamp', nullable: true })
-	returnedAt: Date | null;
+	returnedAt?: Date;
 
 	@Column({
 		name: 'state',

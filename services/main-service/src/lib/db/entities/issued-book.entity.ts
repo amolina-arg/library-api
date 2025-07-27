@@ -1,4 +1,4 @@
-import { IssuedBookState } from 'src/lib/enums/IssuedBookState.enum';
+import { IssuedBookState } from './../../enums/IssuedBookState.enum';
 import { Book } from './book.entity';
 import { User } from './user.entity';
 import {

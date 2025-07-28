@@ -50,7 +50,7 @@ import { BooksModule } from './lib/book/books.module';
 				password: configService.get('POSTGRES_PASSWORD'),
 				database: configService.get('POSTGRES_DATABASE'),
 				entities: [User, Book, IssuedBook],
-				synchronize: configService.get('SYNCHRONIZE'),
+				synchronize: false,
 			}),
 			inject: [ConfigService],
 		}),
@@ -70,6 +70,5 @@ import { BooksModule } from './lib/book/books.module';
 		}),
 	],
 	controllers: [],
-	providers: [],
 })
 export class AppModule {}

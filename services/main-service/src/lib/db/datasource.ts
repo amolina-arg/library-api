@@ -7,6 +7,7 @@ import { UsersTable1751663141903 } from './migrations/1751663141903-users-table'
 import { BooksTable1751665048564 } from './migrations/1751665048564-books-table';
 import { IssuedBooksTable1751665282323 } from './migrations/1751665282323-issued-books-table';
 import { RoleSupport1752266530295 } from './migrations/1752266530295-role-support';
+import { OutboxPattern1753705336274 } from './migrations/1753705336274-outbox-pattern';
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ export default new DataSource({
 		BooksTable1751665048564,
 		IssuedBooksTable1751665282323,
 		RoleSupport1752266530295,
+		OutboxPattern1753705336274,
 	],
 	migrationsTableName: 'migrations',
 	migrationsRun: true,

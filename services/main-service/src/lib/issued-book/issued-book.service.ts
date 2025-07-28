@@ -18,6 +18,7 @@ import { Role } from '../enums/role.enum';
 import { IssuedBookState } from '../enums/IssuedBookState.enum';
 import { IssuedBookDto } from '../issued-book-api/rest/dto/query-issued-book.dto';
 import { IssuedBookMapper } from '../issued-book-api/mapper/issued-book.mapper';
+import { Outbox } from '../db/entities/outbox.entity';
 
 @Injectable()
 @UseGuards(GraphqlAuthGuard, GraphqlRolesGuard)
@@ -29,6 +30,8 @@ export class IssuedBooksService {
 		private readonly configService: ConfigService,
 		@InjectRepository(IssuedBook)
 		private readonly issuedBooksRepository: Repository<IssuedBook>,
+		@InjectRepository(Outbox)
+		private readonly outboxRepository: Repository<Outbox>,
 	) {}
 
 	async findAll(status?: IssuedBookState): Promise<IssuedBookDto[]> {

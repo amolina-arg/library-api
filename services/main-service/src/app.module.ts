@@ -16,6 +16,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { BookDataLoader } from './lib/book-api/graphql/book.dataloader';
 import { BooksService } from './lib/book/books.service';
 import { BooksModule } from './lib/book/books.module';
+import { Outbox } from './lib/db/entities/outbox.entity';
 
 @Module({
 	imports: [
@@ -49,7 +50,7 @@ import { BooksModule } from './lib/book/books.module';
 				username: configService.get('POSTGRES_USER'),
 				password: configService.get('POSTGRES_PASSWORD'),
 				database: configService.get('POSTGRES_DATABASE'),
-				entities: [User, Book, IssuedBook],
+				entities: [User, Book, IssuedBook, Outbox],
 				synchronize: false,
 			}),
 			inject: [ConfigService],

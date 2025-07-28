@@ -9,6 +9,7 @@ export class Outbox {
 	@Column({
 		type: 'enum',
 		enum: OutboxStatusEnum,
+		default: OutboxStatusEnum.WAITING,
 	})
 	status: OutboxStatusEnum;
 

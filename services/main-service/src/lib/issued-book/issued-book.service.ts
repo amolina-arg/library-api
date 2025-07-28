@@ -6,7 +6,7 @@ import {
 	NotFoundException,
 	UseGuards,
 } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { IssuedBook } from '../db/entities/issued-book.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateIssuedBookDto } from '../issued-book-api/rest/dto/create-issued-book.dto';
@@ -19,6 +19,7 @@ import { IssuedBookState } from '../enums/IssuedBookState.enum';
 import { IssuedBookDto } from '../issued-book-api/rest/dto/query-issued-book.dto';
 import { IssuedBookMapper } from '../issued-book-api/mapper/issued-book.mapper';
 import { Outbox } from '../db/entities/outbox.entity';
+import { OutboxStatusEnum } from '../enums/outboxStatusEnum.enum';
 
 @Injectable()
 @UseGuards(GraphqlAuthGuard, GraphqlRolesGuard)
@@ -32,6 +33,7 @@ export class IssuedBooksService {
 		private readonly issuedBooksRepository: Repository<IssuedBook>,
 		@InjectRepository(Outbox)
 		private readonly outboxRepository: Repository<Outbox>,
+		private readonly dataSource: DataSource,
 	) {}
 
 	async findAll(status?: IssuedBookState): Promise<IssuedBookDto[]> {
@@ -151,5 +153,64 @@ export class IssuedBooksService {
 		});
 
 		return issuedBook ? IssuedBookMapper.EntityToDto(issuedBook) : null;
+	}
+
+	async checkIfLoanIsOverdue() {
+		const daysToReturnBook = this.configService.get<number>(
+			'DAYS_TO_RETURN_BOOK',
+		);
+
+		if (!daysToReturnBook) {
+			this.logger.error('Days to return book not defined');
+			throw new InternalServerErrorException('Days to return book not defined');
+		}
+
+		await this.dataSource.transaction(async manager => {
+			const sevenDaysAgo = new Date(Date.now() - daysToReturnBook * 1000);
+
+			const overdueBooks = await manager
+				.getRepository(IssuedBook)
+				.createQueryBuilder('issued_book')
+				.where('issued_book.returned_at IS NULL')
+				.andWhere('issued_book.issued_at < :sevenDaysAgo', {
+					sevenDaysAgo,
+				})
+				.getMany();
+
+			for (const book of overdueBooks) {
+				const existingOutboxEvent = await this.outboxRepository.findOne({
+					where: {
+						eventKey: book.id.toString(),
+					},
+				});
+
+				if (!existingOutboxEvent) {
+					const outboxEvent = this.outboxRepository.create({
+						id: crypto.randomUUID(),
+						status: OutboxStatusEnum.WAITING,
+						topic: 'overdue-loans',
+						eventKey: book.id.toString(),
+						eventData: {
+							bookId: book.id,
+							userId: book.userId,
+							issuedAt: book.issuedAt,
+						},
+						createdAt: new Date(),
+						publishedAt: null,
+					});
+
+					await manager.save(Outbox, outboxEvent);
+				}
+			}
+		});
+	}
+
+	onModuleInit() {
+		this.logger.log('IssuedBooksService initialized');
+		// eslint-disable-next-line @typescript-eslint/no-misused-promises
+		setInterval(async () => {
+			this.logger.log('Checking if any loan is overdue');
+			await this.checkIfLoanIsOverdue();
+		}, 5000);
 	}
 }

@@ -30,11 +30,6 @@ import { Outbox } from './db/entities/outbox.entity';
 		TypeOrmModule.forRootAsync({
 			imports: [ConfigModule],
 			useFactory: (configService: ConfigService) => {
-				console.log(configService.get('POSTGRES_HOST'));
-				console.log(configService.get('POSTGRES_PORT'));
-				console.log(configService.get('POSTGRES_USER'));
-				console.log(configService.get('POSTGRES_PASSWORD'));
-				console.log(configService.get('POSTGRES_DATABASE'));
 				return {
 					type: 'postgres',
 					host: configService.get('POSTGRES_HOST'),

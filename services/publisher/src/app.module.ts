@@ -5,10 +5,15 @@ import { OutboxModule } from './outbox/outbox.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Outbox } from './db/entities/outbox.entity';
+import { ScheduleModule } from '@nestjs/schedule';
+import { IssuedBookModule } from './issued-book/issued-book.module';
+import { IssuedBook } from './db/entities/issued-book.entity';
 
 @Module({
 	imports: [
 		OutboxModule,
+		IssuedBookModule,
+		ScheduleModule.forRoot(),
 		ClientsModule.register([
 			{
 				name: 'KAFKA_SERVICE',
@@ -37,7 +42,7 @@ import { Outbox } from './db/entities/outbox.entity';
 					username: configService.get('POSTGRES_USER'),
 					password: configService.get('POSTGRES_PASSWORD'),
 					database: configService.get('POSTGRES_DATABASE'),
-					entities: [Outbox],
+					entities: [Outbox, IssuedBook],
 					synchronize: false,
 				};
 			},
